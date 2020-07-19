@@ -25,7 +25,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         mUserName = intent.getStringExtra(Constants.USER_NAME)
 
-        val mQuestionsList = Constants.getQuestions()
+        mQuestionList = Constants.getQuestions()
         setQuestion()
 
         tv_option_one.setOnClickListener(this)
@@ -36,7 +36,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setQuestion(){
 
-        val question = mQuestionList!![mCurrentPosition-1]
+        val question = mQuestionList!!.get(mCurrentPosition-1)
 
         defaultOptionView()
 
@@ -148,7 +148,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTextColor(Color.parseColor("#7363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
-            this,
+            this@QuizQuestionActivity,
             R.drawable.selected_option_border_bg
         )
     }
