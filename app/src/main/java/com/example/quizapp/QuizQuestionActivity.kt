@@ -93,7 +93,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                     mCurrentPosition ++
 
                     when{
-                        mCurrentPosition <= mQuestionList!!.size->{
+                        mCurrentPosition <= mQuestionList!!.size
+                        ->{
                             setQuestion()
                         }else->{
                         val intent = Intent(this, ResultActivity::class.java)
@@ -112,6 +113,14 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                         mCorrectAnswers++
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+
+                    if (mCurrentPosition == mQuestionList!!.size) {
+                        btn_submit.text = "FINISH"
+                    } else {
+                        btn_submit.text = "GO TO NEXT QUESTION"
+                    }
+
+                    mSelectedOptionPosition = 0
                 }
             }
         }
@@ -145,7 +154,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         defaultOptionView()
         mSelectedOptionPosition = selectedOptionNum
 
-        tv.setTextColor(Color.parseColor("#7363A43"))
+        tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
             this@QuizQuestionActivity,

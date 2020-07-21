@@ -58,6 +58,7 @@
                 android:textSize="14sp"
                 tools:text="0/10"/>
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_option_one"
             android:layout_width="match_parent"
@@ -68,7 +69,8 @@
             android:padding="15dp"
             android:textColor="#7A8089"
             android:textSize="18sp"
-            tools:text="Apple"/>
+            tools:text="Apple" />
+
         <TextView
             android:id="@+id/tv_option_two"
             android:layout_width="match_parent"
