@@ -3,25 +3,33 @@ package com.example.quizapp
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_quiz_question.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
+
 
     private var mCurrentPosition: Int = 1
     private var mQuestionList: ArrayList<Question>? = null
     private var mSelectedOptionPosition: Int = 0
     private var mCorrectAnswers: Int = 0
     private var mUserName: String ?= null
+    private lateinit var countDownTimer : CountDownTimer
+    private var timeLeftInMillis: Long = 0
+    private val COUNTDOWN_IN_MILLIS: Long = 60000
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_question)
+
 
         mUserName = intent.getStringExtra(Constants.USER_NAME)
 
@@ -56,6 +64,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tv_option_three.text = question.optionThree
         tv_option_four.text = question.optionFour
         btn_submit.setOnClickListener(this)
+        timeLeftInMillis = COUNTDOWN_IN_MILLIS
+        startCountDown()
     }
     private fun defaultOptionView(){
         val options = ArrayList<TextView>()
@@ -106,24 +116,25 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }
                 }else{
-                    val question = mQuestionList?.get(mCurrentPosition - 1)
-                    if(question!!.correctAnswer != mSelectedOptionPosition){
-                        answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
-                    }else{
-                        mCorrectAnswers++
-                    }
-                    answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
-
-                    if (mCurrentPosition == mQuestionList!!.size) {
-                        btn_submit.text = "FINISH"
-                    } else {
-                        btn_submit.text = "GO TO NEXT QUESTION"
-                    }
-
-                    mSelectedOptionPosition = 0
+                    checkanswer()
                 }
             }
         }
+    }
+
+    private fun startCountDown() {
+        countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftInMillis = millisUntilFinished
+                updateCountDownText()
+            }
+
+            override fun onFinish() {
+                timeLeftInMillis = 0
+                updateCountDownText()
+                checkanswer()
+            }
+        }.start()
     }
 
     private fun answerView(answer: Int, drawableView: Int){
@@ -161,4 +172,44 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             R.drawable.selected_option_border_bg
         )
     }
+
+    private fun checkanswer(){
+        val question = mQuestionList?.get(mCurrentPosition - 1)
+        countDownTimer.cancel()
+        if(question!!.correctAnswer != mSelectedOptionPosition){
+            answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+        }else{
+            mCorrectAnswers++
+        }
+        answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+
+        if (mCurrentPosition == mQuestionList!!.size) {
+            btn_submit.text = "FINISH"
+        } else {
+            btn_submit.text = "GO TO NEXT QUESTION"
+        }
+
+        mSelectedOptionPosition = 0
+    }
+
+    private fun updateCountDownText() {
+        val minutes = (timeLeftInMillis / 1000) / 60
+        val seconds = (timeLeftInMillis / 1000) % 60
+        val timeFormatted =
+            java.lang.String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+        timer_text.setText(timeFormatted)
+        if (timeLeftInMillis < 10000) {
+            timer_text.setTextColor(Color.RED)
+        } else {
+            timer_text.setTextColor(Color.parseColor("#363A43"))
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        if (countDownTimer != null) {
+            countDownTimer.cancel()
+        }
+    }
 }
+
+
