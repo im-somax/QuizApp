@@ -23,6 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:shadowColor="#717171"
+        android:fontFamily="@font/raleway_bold"
         android:text="Quiz App"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#3808A0"

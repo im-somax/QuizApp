@@ -115,7 +115,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                         finish()
                         }
                     }
-                }else{
+                }
+                else{
                     checkanswer()
                 }
             }

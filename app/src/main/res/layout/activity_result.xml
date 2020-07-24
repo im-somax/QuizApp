@@ -17,7 +17,7 @@
         android:text="Result"
         android:textColor="@android:color/white"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:fontFamily="@font/raleway_bold"/>
 
     <ImageView
         android:id="@+id/iv_trophy"
@@ -34,7 +34,7 @@
         android:text="Hey, Congratulations!"
         android:textColor="@android:color/white"
         android:textSize="25sp"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/raleway_bold"/>
 
     <TextView
         android:id="@+id/tv_name"
@@ -43,7 +43,7 @@
         android:layout_marginTop="25dp"
         android:textColor="@android:color/white"
         android:textSize="22sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/raleway_bold"
         tools:text="Username" />
 
     <TextView
@@ -53,6 +53,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@android:color/secondary_text_dark"
         android:textSize="20sp"
+        android:fontFamily="@font/raleway"
         tools:text="Your Score is 9 out of 10" />
 
     <Button
@@ -64,5 +65,5 @@
         android:text="FINISH"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:fontFamily="@font/raleway_bold" />
 </LinearLayout>
